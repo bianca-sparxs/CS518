@@ -53,6 +53,15 @@ match k with
 let rec repeatk (k : int)(strm : 'a stream) : 'a stream =  
 match strm with
 Nil -> Nil
-| Cons(x, taill) -> twoseq (dupk x (k -1) Nil) (Cons(x, fun () -> repeatk k (tail ())))
+| Cons(x, tail) -> twoseq (dupk x (k -1) Nil) (Cons(x, fun () -> repeatk k (tail ())))
 
 (* G *)
+let rec addAdjacent (strm : int stream) : int stream = 
+match s with 
+Nil -> Nil
+| Cons (x, tail) -> Cons(x + getHead (taill ()), fun () -> 
+    match tl () with
+        | Nil -> Nil
+        | Cons (_, tl) -> addAdjacent (tl ()) )
+
+

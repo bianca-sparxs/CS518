@@ -51,20 +51,18 @@ let sum_top_k  (k :int) (lis : int list) : int =
         | i -> List.hd list + k_adder (i-1) (List.tl list) in 
     k_adder k lis
 
-let fib_k_step (k : int) (bound : int) : int = 
+let fib_k_step (k : int) (n : int) : int = 
     let starter = [1;1;0] in 
         let rec adder (a : int) (lis : int list) : int list = 
             match a with
-            | 0 -> lis
-            | 1 -> lis
             | 2 -> lis
-            | a -> adder (a-1) ([sum_top_k a lis] @ lis)
+            | a -> adder (a-1) ([sum_top_k k lis] @ lis)
             in
-        match bound with 
-        | 0 -> 0 
+        match n with 
+        | _ when n <= 0 -> 0 
         | 1 -> 1
         | 2 -> 1
-        | n ->  List.hd (adder bound starter)
+        | n ->  List.hd (adder n starter)
 
 type 'a binTree =
 | Leaf
@@ -76,9 +74,6 @@ Leaf -> Leaf
 |Node (data, l, r) -> Node (fn data, mapT fn l, mapT fn r)
 
 (* 
-let parity (a: int) = match a mod 2 with
-|0 -> "false"
-|1 -> "true";;
 let tree = Node(5, Node(4, Leaf, Leaf), Node(3,Leaf,Leaf));;
 mapT parity tree;; 
  *)
