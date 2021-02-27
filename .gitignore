@@ -1,3 +1,5 @@
 ocamlPrac/
 _build/
 *.byte
+__pycache__
+.pytest_cache/
