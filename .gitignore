@@ -3,3 +3,5 @@ _build/
 *.byte
 __pycache__
 .pytest_cache/
+*.dll
+*.runtimeconfig.json
