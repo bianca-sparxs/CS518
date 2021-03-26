@@ -15,7 +15,7 @@ requires 0 < step;
   {
     indx := indx + step;               // DO NOT CHANGE
   }
-  // assert indx == ; // index == 42 / step + 42 % mod step ? ay carumba
+  assert indx > 42; // ay carumba i feel like there is a stronger assert to be made
 }
  
 /*
