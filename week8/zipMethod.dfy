@@ -6,6 +6,7 @@ requires b != null;
 requires a.Length == b.Length;
 ensures c != null;
 ensures c.Length == a.Length * 2;
+
 ensures forall i :: 0 <= i < a.Length && i % 2 == 0 ==> c[i] == a[i];
 ensures forall i :: a.Length <= i < a.Length * 2 && i % 2 == 0 ==> c[i] == a[i/2];
 
