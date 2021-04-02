@@ -1,0 +1,14 @@
+formulas(assumptions).
+
+  % five axioms of group theory, not all of them are necessary 
+
+  m(m(x,y),z) = m(x,m(y,z)).    % m is associative
+  m(x,e) = x.                   % e is a right identity
+  m(x,i(x)) = e.                % i(x) is right inverse of x
+
+end_of_list.
+
+formulas(goals).
+  (m(x, i(x)) = e -> m(i(x), x) = e)    % left inverse is right inverse
+    & (m(x, e) = x -> m(e, x) = x).     % left identity is right identity
+end_of_list.

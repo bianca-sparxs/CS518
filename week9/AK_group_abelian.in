@@ -1,0 +1,19 @@
+formulas(assumptions).
+
+% M( , ) is the binary operation in groups
+% e is the identity in groups
+
+M(x, e) = x & M(e, x) = x.             % e is a right- and left-identity
+ 
+exists y (M(y, x) = e & M(x, y) = e).  % for every x there is a y which is
+                                       % the right- and left-inverse of x
+
+M(z, M(y, x) ) = M( M(z, y) , x).      % M( , ) is associative
+%
+end_of_list.
+
+formulas(goals).
+
+M(x, y) = M(y, x).                     % M( , ) is commutative
+
+end_of_list.

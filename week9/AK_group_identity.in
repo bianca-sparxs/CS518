@@ -1,0 +1,12 @@
+formulas(assumptions).
+
+
+  m(m(x,y),z) = m(x,m(y,z)).    % m is associative
+  m(x,e) = x.                   % e is a right identity
+  m(x,i(x)) = e.                % i(x) is right inverse of x
+
+end_of_list.
+
+formulas(goals).
+
+exists a m(a, x) = a & m(x, a) = a -> all a m(a, x) = a.

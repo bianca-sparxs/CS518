@@ -1,0 +1,173 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 5473 was started by chinweoparaji on dhcp-wifi-8021x-155-41-95-90.bu.edu,
+Fri Apr  2 11:38:15 2021
+The command was "bin/prover9 -f AK_group_identity.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file AK_group_identity.in
+
+
+formulas(assumptions).
+m(m(x,y),z) = m(x,m(y,z)).
+m(x,e) = x.
+m(x,i(x)) = e.
+end_of_list.
+
+formulas(goals).
+(exists a m(a,x) = a) & m(x,a) = a -> (all a m(a,x) = a).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (exists a m(a,x) = a) & m(x,a) = a -> (all a m(a,x) = a) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+m(x,e) = x.  [assumption].
+m(x,i(x)) = e.  [assumption].
+m(c2,c1) = c2.  [deny(1)].
+m(c1,a) = a.  [deny(1)].
+m(c3,c1) != c3.  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ a, e, c1, c2, c3, m, i ]).
+After inverse_order: Function symbol precedence:  function_order([ a, e, c1, c2, c3, m, i ]).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+
+Auto_process settings:  (no changes).
+
+kept:      2 m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+kept:      3 m(x,e) = x.  [assumption].
+kept:      4 m(x,i(x)) = e.  [assumption].
+kept:      5 m(c2,c1) = c2.  [deny(1)].
+kept:      6 m(c1,a) = a.  [deny(1)].
+kept:      7 m(c3,c1) != c3.  [deny(1)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+2 m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+3 m(x,e) = x.  [assumption].
+4 m(x,i(x)) = e.  [assumption].
+5 m(c2,c1) = c2.  [deny(1)].
+6 m(c1,a) = a.  [deny(1)].
+7 m(c3,c1) != c3.  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+2 m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+3 m(x,e) = x.  [assumption].
+4 m(x,i(x)) = e.  [assumption].
+5 m(c2,c1) = c2.  [deny(1)].
+6 m(c1,a) = a.  [deny(1)].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.01 seconds.
+
+given #1 (I,wt=11): 2 m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+
+given #2 (I,wt=5): 3 m(x,e) = x.  [assumption].
+
+given #3 (I,wt=6): 4 m(x,i(x)) = e.  [assumption].
+
+given #4 (I,wt=5): 5 m(c2,c1) = c2.  [deny(1)].
+
+given #5 (I,wt=5): 6 m(c1,a) = a.  [deny(1)].
+
+given #6 (I,wt=5): 7 m(c3,c1) != c3.  [deny(1)].
+
+given #7 (A,wt=9): 8 m(x,m(e,y)) = m(x,y).  [para(3(a,1),2(a,1,1)),flip(a)].
+
+given #8 (T,wt=6): 13 m(x,i(e)) = x.  [para(4(a,1),8(a,1,2)),rewrite([3(2)]),flip(a)].
+
+given #9 (T,wt=9): 11 m(c2,m(c1,x)) = m(c2,x).  [para(5(a,1),2(a,1,1)),flip(a)].
+
+given #10 (T,wt=6): 15 m(c2,i(c1)) = c2.  [para(4(a,1),11(a,1,2)),rewrite([3(3)]),flip(a)].
+
+given #11 (T,wt=9): 12 m(c1,m(a,x)) = m(a,x).  [para(6(a,1),2(a,1,1)),flip(a)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.01) seconds.
+% Length of proof is 9.
+% Level of proof is 4.
+% Maximum clause weight is 11.000.
+% Given clauses 11.
+
+1 (exists a m(a,x) = a) & m(x,a) = a -> (all a m(a,x) = a) # label(non_clause) # label(goal).  [goal].
+2 m(m(x,y),z) = m(x,m(y,z)).  [assumption].
+3 m(x,e) = x.  [assumption].
+4 m(x,i(x)) = e.  [assumption].
+6 m(c1,a) = a.  [deny(1)].
+7 m(c3,c1) != c3.  [deny(1)].
+12 m(c1,m(a,x)) = m(a,x).  [para(6(a,1),2(a,1,1)),flip(a)].
+17 c1 = e.  [para(4(a,1),12(a,1,2)),rewrite([3(3),4(5)])].
+20 $F.  [back_rewrite(7),rewrite([17(2),3(3)]),xx(a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=11. Generated=91. Kept=18. proofs=1.
+Usable=7. Sos=3. Demods=13. Limbo=3, Disabled=11. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=72. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=17 (0 lex), Back_demodulated=5. Back_unit_deleted=0.
+Demod_attempts=763. Demod_rewrites=134.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.06.
+User_CPU=0.01, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 5473 exit (max_proofs) Fri Apr  2 11:38:15 2021
