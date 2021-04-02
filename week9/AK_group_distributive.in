@@ -9,6 +9,5 @@ formulas(assumptions).
 end_of_list.
 
 formulas(goals).
-  (m(x, i(x)) = e -> m(i(x), x) = e)    % left inverse is right inverse
-    & (m(x, e) = x -> m(e, x) = x).     % left identity is right identity
+  i(m(a, b)) = m(i(a), i(b)).
 end_of_list.
