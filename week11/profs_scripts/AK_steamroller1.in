@@ -1,0 +1,102 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run by executing command:
+%
+%    $ prover9 < AK_steamroller1.in
+% or
+%    $ prover9 -f AK_steamroller1.in > AK_steamroller1.prover9.out
+% or
+%    $ mace4 -c -f AK_steamroller1.in > AK_steamroller1.mace4.out
+% or
+%    $ mace4 -n8 -f AK_steamroller1.in > AK_steamroller1.mace4.out
+%
+% (ignore the flags "-f", "-c", and "-n8", though you can find their
+%  meanings in the Prover9+Mace4 documentation)
+%
+% Recommended parameters (of those commented out, some work with 
+% prover9 and some work with mac4):
+
+% set(binary_resolution).
+% clear(print_initial_clauses).
+% clear(print_kept).
+% clear(print_given).
+assign(max_seconds,10).
+% assign(stats,none).
+
+% commenting out any of the lines starting with "clear",
+% as well as changing the "stats" level, will produce more output.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%                Schubert's Steamroller
+% 
+% Wolves, foxes, birds, caterpillars, and snails are animals,
+% and there are some of each of them.
+% 
+% Also there are some grains, and grains are plants.
+% 
+% Every animal either likes to eat all plants or all animals much
+% smaller than itself that like to eat some plants.
+% 
+% Caterpillars and snails are much smaller than birds, which are much
+% smaller than foxes, which are in turn much smaller than wolves.
+% 
+% Wolves do not like to eat foxes or grains, while birds like to eat
+% caterpillars but not snails.
+% 
+% Caterpillars and snails like to eat some plants.
+% 
+% Prove there is an animal that likes to eat a grain-eating animal.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+formulas(assumptions).
+
+Wolf(x) -> Animal(x).
+Fox(x) -> Animal(x).
+Bird(x) -> Animal(x).
+Caterpillar(x) -> Animal(x).
+Snail(x) -> Animal(x).
+Grain(x) -> Plant(x).
+
+exists x Wolf(x).
+exists x Fox(x).
+exists x Bird(x).
+exists x Caterpillar(x).
+exists x Snail(x).
+exists x Grain(x).
+
+% All animals either eat all plants or eat all smaller animals
+% that eat some plants.
+
+all x (Animal(x) -> (all y (Plant(y) -> Eats(x,y)))
+                    | 
+                    (all z ( Animal(z) &
+                             Smaller(z,x) &
+                             (exists u (Plant(u) & Eats(z,u)))
+                            ->
+                             Eats(x,z)))).
+
+Caterpillar(x) & Bird(y) -> Smaller(x,y).
+Snail(x) & Bird(y) -> Smaller(x,y).
+Bird(x) & Fox(y) -> Smaller(x,y).
+Fox(x) & Wolf(y) -> Smaller(x,y).
+Bird(x) & Caterpillar(y) -> Eats(x,y).
+
+Caterpillar(x) -> (exists y (Plant(y) & Eats(x,y))).
+Snail(x)       -> (exists y (Plant(y) & Eats(x,y))).
+
+Wolf(x) & Fox(y) -> -Eats(x,y).
+Wolf(x) & Grain(y) -> -Eats(x,y).
+Bird(x) & Snail(y) -> -Eats(x,y).
+
+end_of_list.
+
+formulas(goals).
+
+% There is an animal that eats {an animal that eats all grains}.
+
+exists x exists y ( Animal(x) &
+	            Animal(y) &
+	            Eats(x,y) &
+                    (all z (Grain(z) -> Eats(y,z)))).
+end_of_list.
