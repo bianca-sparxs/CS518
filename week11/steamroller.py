@@ -30,6 +30,7 @@ def Snail(num):
     return num == 4
 def Grain(num):
     return num == 5
+
 def Eats(thing1, thing2):
     return Or(
         And(thing1 == 2, thing2 == 3),
@@ -37,6 +38,7 @@ def Eats(thing1, thing2):
         And(thing1 == 0, thing2 == 5),
         And(thing1 == 2, thing2 == 4),
         )
+
 def Smaller(thing1, thing2):
     return Or(
         And(thing1 == 3, thing2 == 2),
@@ -54,7 +56,7 @@ snailIsAnimal = Implies(Snail(x), Animal(x))
 grainIsPlant= Implies(Grain(x), Plant(x))
 AnimalsArentPlants = Implies(Animal(x), Not(Plant(x)))
 
-WolvesArePlants = Implies(Wolf(x), Plant(x)) #should be unsat but its not idk logic yo
+WolvesArePlants = Implies(Wolf(x), Plant(x))
 
 # All animals either eat all plants or eat all smaller animals that eat some plants.
 fact1 = ForAll(x, Implies(Animal(x), Or(ForAll(y, Implies(Plant(y), Eats(x,y))), 
@@ -62,27 +64,8 @@ fact1 = ForAll(x, Implies(Animal(x), Or(ForAll(y, Implies(Plant(y), Eats(x,y))),
                                 Exists(u, And(Plant(u), Eats(z, u)))), Eats(x, z))))))
 
 
-# all x (Animal(x) -> (all y (Plant(y) -> Eats(x,y)))
-#                     | 
-#                     (all z ( Animal(z) &
-#                              Smaller(z,x) &
-#                              (exists u (Plant(u) & Eats(z,u)))
-#                             ->
-#                              Eats(x,z)))).
-
-
 solver = Solver()
-# solver.add (
-#     wolfIsAnimal,
-#     foxIsAnimal,
-#     birdIsAnimal, 
-#     ctplrIsAnimal,
-#     snailIsAnimal,
-#     grainIsPlant,
-#     AnimalsArentPlants,
-#     Exists(w, WolvesArePlants)
-    
-# )
+
 solver.add(
     wolfIsAnimal,
     foxIsAnimal,
@@ -90,13 +73,13 @@ solver.add(
     ctplrIsAnimal,
     snailIsAnimal,
     grainIsPlant,
-    WolvesArePlants,
     AnimalsArentPlants,
+    WolvesArePlants, #for testing: how can animal not be plant and i said wolf is plant and still sat
     fact1
 )
 
 solver.add(
-    # Exists(x, And(Wolf(x), Plant(x))) #if unsat, we in bidiness,
+    # Exists(x, And(Wolf(x), Plant(x))) #if unsat, makes sense,
 
 )
     
