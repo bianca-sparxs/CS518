@@ -1,0 +1,55 @@
+% Usage:
+%  prover9 -f AK_lattice_axioms.in > AK_lattice_axioms.prover9.out
+% or
+%  mace4 -c -f AK_lattice_axioms.in > AK_lattice_axioms.mace4.out
+% or
+%  prover9 < AK_lattice_axioms.in
+% or 
+%  mace4 -c -f AK_lattice_axioms.in
+
+if(Prover9). % Options for Prover9
+  set(binary_resolution).
+  clear(print_initial_clauses).
+  clear(print_kept).
+  clear(print_given).
+  assign(max_seconds,30).
+  assign(stats,none).
+end_if.
+
+% commenting out any of the lines starting with "clear",
+% as well as changing the "stats" level, will produce more output.
+
+if(Mace4).   % Options for Mace4
+  set(arithmetic).
+  assign(max_seconds, 1).
+end_if.
+
+op(400,infix,oplus).  % declares “oplus” to be an infix op with precedence 400
+op(400,infix,otimes). % declares “otimes” to be an infix op with precedence 400
+
+formulas (assumptions).
+
+% axioms for a partial order %%%%%%%%%%%%%%%%%%%%%%%
+x <= x.
+x <= y & y <= x -> x=y.
+x <= y & y <= z -> x <= z.
+
+% axioms for a lattice  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+x <= Top.
+Bot <= x.
+z <= x otimes y <-> z <= x & z <= y.
+x oplus y <= z  <-> x <= z & y <= z.
+
+% axioms for distributivity  %%%%%%%%%%%%%%%%%%%%%%%
+(x oplus y) otimes z = (x otimes z) oplus (y otimes z).
+(x otimes y) oplus z = (x oplus z) otimes (y oplus z).
+
+end_of_list.
+
+formulas(goals).
+
+% do complements exist?      %%%%%%%%%%%%%%%%%%%%%%%%
+all x exists y ( x oplus y = Top & x otimes y = Bot ).
+
+end_of_list.
+
