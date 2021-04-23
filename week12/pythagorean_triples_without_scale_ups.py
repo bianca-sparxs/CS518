@@ -19,7 +19,8 @@ from z3 import Solver, Ints, And, Not, Or, sat
 import math
 s = Solver ()
 
-"""From math stackexchange:
+"""
+From math stackexchange:
 the formula is as follows:
 𝑎=𝑚^2 − 𝑛^2, 𝑏=2𝑚𝑛, 𝑐=^2 + 𝑛^2
 
@@ -29,6 +30,7 @@ for any 2 values of 𝑚 and 𝑛 the above formula will give a Pythagorean Trip
 
 To get a Primitive Pythagorean triple, 𝑚 and 𝑛 have to co-prime and not both odd.
 """
+
 def Odd(x):
     return x % 2 == 1
 
@@ -48,6 +50,8 @@ def GCD(x, y):
         return gcd(x-y, y)
     return gcd(x, y-x)
 
+# def CoPrime(x, y):
+#     return math.gcd(x, y) == 1        #x, y are 'ArithRef' not 'int' :<
 
 def CoPrime(x, y):
     return GCD(x, y) == 1
@@ -61,13 +65,13 @@ s.add (And( 0 < x , x < y , y < z ) )
 # Assert that x*x + y*y = z*z, i.e. (x,y,z) is a Pythagorean triple :
 s.add ( x * x + y * y == z * z )
 
-#x = a^2 - b^2, y = 2ab, z = a^2 + b^2
+# x = a^2 - b^2, y = 2ab, z = a^2 + b^2
 s.add(And(x == (a * a) - (b * b), y == 2 * a * b, z == (a * a) + (b * b)))
 
-#a>b>0
+# a>b>0
 s.add(And(b > 0, a > b))
 
-#a and b both not odd
+# a and b both not odd (idk why this works)
 s.add(Or(And(Odd(a), Not(Odd(b))), And(Odd(b), Not(Odd(a)))))
 s.add(Not(Odd(a) == Odd(b))) #ok apparently i needed both of these....?
 
