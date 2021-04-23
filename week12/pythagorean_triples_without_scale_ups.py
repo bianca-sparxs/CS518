@@ -44,7 +44,7 @@ def GCD(x, y):
         return x
   
     # a is greater
-    if (x > y):
+    if (x > y): #throws: z3.z3types.Z3Exception: Symbolic expressions cannot be cast to concrete Boolean values.
         return gcd(x-y, y)
     return gcd(x, y-x)
 
