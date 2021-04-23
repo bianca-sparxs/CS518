@@ -15,7 +15,7 @@
 ######### >>> execfile ('pythagorean_triples.py')           # in Python2 only
 ######### >>> exec(open("./pythagorean_triples.py").read()) # in Python2 and Python3
 
-from z3 import Solver, Ints, And, Not, sat
+from z3 import Solver, Ints, And, Not, Or, sat
 import math
 s = Solver ()
 
@@ -68,20 +68,21 @@ s.add(And(x == (a * a) - (b * b), y == 2 * a * b, z == (a * a) + (b * b)))
 s.add(And(b > 0, a > b))
 
 #a and b both not odd
-s.add(And(Not(Odd(a) == Odd(b)), CoPrime(a, b)))
+s.add(Or(And(Odd(a), Not(Odd(b))), And(Odd(b), Not(Odd(a)))))
+s.add(Not(Odd(a) == Odd(b))) #ok apparently i needed both of these....?
 
 #a and b coprime (GCD of both numbers == 1)
-# s.add(CoPrime(a, b))
+# s.add(CoPrime(a, b))          #ok apparently i didn't need this ....?
 
 n = 1
 results = []
-while s.check() == sat and n <= 3:
+while s.check() == sat and n <= 5:
     m = s.model()
     results.append (m)
     s.add ( x != m[x] )
     n = n+1
 
-print (s.check())
+# print (s.check())
 
 for p in range (len (results)) :
     print (results[p])
