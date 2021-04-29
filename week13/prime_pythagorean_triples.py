@@ -15,49 +15,17 @@
 ######### >>> execfile ('pythagorean_triples.py')           # in Python2 only
 ######### >>> exec(open("./pythagorean_triples.py").read()) # in Python2 and Python3
 
-from z3 import Solver, Ints, And, Not, Or, sat
+from z3 import Solver, Ints, And, Not, Exists, sat
 import math
 s = Solver ()
 
-"""
-From math stackexchange:
-the formula is as follows:
-𝑎=𝑚^2 − 𝑛^2, 𝑏=2𝑚𝑛, 𝑐=^2 + 𝑛^2
+def isPrime(x):
+    w, v = Ints("w v")
+    return And(x > 1, Not(Exists([w, v], And(w < x, v < x, w > 1, v > 1, x == w*v))))
 
-where 𝑚>𝑛>0
-
-for any 2 values of 𝑚 and 𝑛 the above formula will give a Pythagorean Triple.
-
-To get a Primitive Pythagorean triple, 𝑚 and 𝑛 have to co-prime and not both odd.
-"""
-
-def Odd(x):
-    return x % 2 == 1
-
-def GCD(x, y):
-    # Everything divides 0
-    if (x == 0):
-        return b
-    if (y == 0):
-        return a
-  
-    # base case
-    if (x == y):
-        return x
-  
-    # a is greater
-    if (x > y): #throws: z3.z3types.Z3Exception: Symbolic expressions cannot be cast to concrete Boolean values.
-        return GCD(x-y, y)
-    return GCD(x, y-x)
-
-# def CoPrime(x, y):
-#     return math.gcd(x, y) == 1        #x, y are 'ArithRef' not 'int' :<
-
-def CoPrime(x, y):
-    return GCD(x, y) == 1
 
 # Declare three integer variables/constants of Z3Py {x, y, z} :
-x, y, z, a, b = Ints ('x y z a b')
+x, y, z = Ints ('x y z')
 
 # Assert that {x, y, z} are positive integers such that 0 < x < y < z :
 s.add (And( 0 < x , x < y , y < z ) )
@@ -65,28 +33,20 @@ s.add (And( 0 < x , x < y , y < z ) )
 # Assert that x*x + y*y = z*z, i.e. (x,y,z) is a Pythagorean triple :
 s.add ( x * x + y * y == z * z )
 
-# x = a^2 - b^2, y = 2ab, z = a^2 + b^2
-s.add(And(x == (a * a) - (b * b), y == 2 * a * b, z == (a * a) + (b * b)))
+#m^2 + n^2 = (n + 2)^2 ==  m^2 = 2n+4
+s.add(isPrime(x))
 
-# a>b>0
-s.add(And(b > 0, a > b))
 
-# a and b both not odd (idk why this works)
-s.add(Or(And(Odd(a), Not(Odd(b))), And(Odd(b), Not(Odd(a)))))
-s.add(Not(Odd(a) == Odd(b))) #ok apparently i needed both of these....?
-
-#a and b coprime (GCD of both numbers == 1)
-# s.add(CoPrime(a, b))          #ok apparently i didn't need this ....?
 
 n = 1
 results = []
-while s.check() == sat and n <= 5:
+while s.check() == sat and n <= 10:
     m = s.model()
     results.append (m)
     s.add ( x != m[x] )
     n = n+1
 
-# print (s.check())
+print (s.check())
 
 for p in range (len (results)) :
     print (results[p])
