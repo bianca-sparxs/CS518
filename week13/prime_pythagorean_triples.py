@@ -15,17 +15,15 @@
 ######### >>> execfile ('pythagorean_triples.py')           # in Python2 only
 ######### >>> exec(open("./pythagorean_triples.py").read()) # in Python2 and Python3
 
-from z3 import Solver, Ints, And, Not, Exists, sat
+from z3 import Solver, Ints, And, Not, Exists, ForAll, sat
 import math
 s = Solver ()
 
-def isPrime(x):
-    w, v = Ints("w v")
-    return And(x > 1, Not(Exists([w, v], And(w < x, v < x, w > 1, v > 1, x == w*v))))
-
+# def isPrime(x):
+#     w, v = Ints("w v")
 
 # Declare three integer variables/constants of Z3Py {x, y, z} :
-x, y, z = Ints ('x y z')
+x, y, z, w, v = Ints ('x y z w v')
 
 # Assert that {x, y, z} are positive integers such that 0 < x < y < z :
 s.add (And( 0 < x , x < y , y < z ) )
@@ -33,9 +31,11 @@ s.add (And( 0 < x , x < y , y < z ) )
 # Assert that x*x + y*y = z*z, i.e. (x,y,z) is a Pythagorean triple :
 s.add ( x * x + y * y == z * z )
 
-#m^2 + n^2 = (n + 2)^2 ==  m^2 = 2n+4
-s.add(isPrime(x))
+#triple is tight
+s.add(y + 1 == z)
 
+s.add(And(x > 1, Not(Exists([w, v], And(w < x, v < x, w > 1, v > 1, x == w*v)))))
+s.add(x < 100)
 
 
 n = 1
